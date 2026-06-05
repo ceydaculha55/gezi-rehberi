@@ -573,6 +573,35 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEtiketEtiket extends Struct.CollectionTypeSchema {
+  collectionName: 'etikets';
+  info: {
+    displayName: 'Etiket';
+    pluralName: 'etikets';
+    singularName: 'etiket';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Ad: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::etiket.etiket'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    yazis: Schema.Attribute.Relation<'manyToMany', 'api::yazi.yazi'>;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -661,6 +690,7 @@ export interface ApiKategoriKategori extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    yazis: Schema.Attribute.Relation<'oneToMany', 'api::yazi.yazi'>;
   };
 }
 
@@ -692,6 +722,7 @@ export interface ApiYazarYazar extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    yazis: Schema.Attribute.Relation<'oneToMany', 'api::yazi.yazi'>;
   };
 }
 
@@ -710,7 +741,9 @@ export interface ApiYaziYazi extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    etikets: Schema.Attribute.Relation<'manyToMany', 'api::etiket.etiket'>;
     Icerik: Schema.Attribute.Blocks;
+    kategori: Schema.Attribute.Relation<'manyToOne', 'api::kategori.kategori'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::yazi.yazi'> &
       Schema.Attribute.Private;
@@ -718,6 +751,7 @@ export interface ApiYaziYazi extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    yazar: Schema.Attribute.Relation<'manyToOne', 'api::yazar.yazar'>;
   };
 }
 
@@ -1236,6 +1270,7 @@ declare module '@strapi/strapi' {
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
+      'api::etiket.etiket': ApiEtiketEtiket;
       'api::global.global': ApiGlobalGlobal;
       'api::hakkimizda.hakkimizda': ApiHakkimizdaHakkimizda;
       'api::kategori.kategori': ApiKategoriKategori;
