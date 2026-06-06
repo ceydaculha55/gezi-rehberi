@@ -34,6 +34,16 @@
     },
     "Icerik2": {
       "type": "text"
+    },
+    "Kapak_resmi": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }
