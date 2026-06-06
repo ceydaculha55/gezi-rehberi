@@ -638,7 +638,7 @@ export interface ApiYaziYazi extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     etikets: Schema.Attribute.Relation<'manyToMany', 'api::etiket.etiket'>;
-    Icerik: Schema.Attribute.Blocks;
+    Icerik2: Schema.Attribute.Text;
     kategori: Schema.Attribute.Relation<'manyToOne', 'api::kategori.kategori'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::yazi.yazi'> &
