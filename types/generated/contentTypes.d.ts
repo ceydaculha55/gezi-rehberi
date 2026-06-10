@@ -440,35 +440,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAboutAbout extends Struct.SingleTypeSchema {
-  collectionName: 'abouts';
-  info: {
-    description: 'Write about yourself and the content you create';
-    displayName: 'About';
-    pluralName: 'abouts';
-    singularName: 'about';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    blocks: Schema.Attribute.DynamicZone<
-      ['shared.media', 'shared.quote', 'shared.rich-text', 'shared.slider']
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::about.about'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiEtiketEtiket extends Struct.CollectionTypeSchema {
   collectionName: 'etikets';
   info: {
@@ -495,38 +466,6 @@ export interface ApiEtiketEtiket extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     yazis: Schema.Attribute.Relation<'manyToMany', 'api::yazi.yazi'>;
-  };
-}
-
-export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
-  collectionName: 'globals';
-  info: {
-    description: 'Define global settings';
-    displayName: 'Global';
-    pluralName: 'globals';
-    singularName: 'global';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    defaultSeo: Schema.Attribute.Component<'shared.seo', false>;
-    favicon: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::global.global'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    siteDescription: Schema.Attribute.Text & Schema.Attribute.Required;
-    siteName: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
   };
 }
 
@@ -587,6 +526,66 @@ export interface ApiKategoriKategori extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     yazis: Schema.Attribute.Relation<'oneToMany', 'api::yazi.yazi'>;
+  };
+}
+
+export interface ApiMekanMekan extends Struct.CollectionTypeSchema {
+  collectionName: 'mekans';
+  info: {
+    displayName: 'Mekan';
+    pluralName: 'mekans';
+    singularName: 'mekan';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Aciklama_EN: Schema.Attribute.Text;
+    Aciklama_TR: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Kapak_resmi: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::mekan.mekan'> &
+      Schema.Attribute.Private;
+    Mekan_Adi: Schema.Attribute.String;
+    Puan: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    sehir: Schema.Attribute.Relation<'manyToOne', 'api::sehir.sehir'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSehirSehir extends Struct.CollectionTypeSchema {
+  collectionName: 'sehirs';
+  info: {
+    displayName: 'Sehir';
+    pluralName: 'sehirs';
+    singularName: 'sehir';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Ad: Schema.Attribute.String;
+    Bilgi: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::sehir.sehir'> &
+      Schema.Attribute.Private;
+    mekans: Schema.Attribute.Relation<'oneToMany', 'api::mekan.mekan'>;
+    publishedAt: Schema.Attribute.DateTime;
+    Ulke: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1166,11 +1165,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::about.about': ApiAboutAbout;
       'api::etiket.etiket': ApiEtiketEtiket;
-      'api::global.global': ApiGlobalGlobal;
       'api::hakkimizda.hakkimizda': ApiHakkimizdaHakkimizda;
       'api::kategori.kategori': ApiKategoriKategori;
+      'api::mekan.mekan': ApiMekanMekan;
+      'api::sehir.sehir': ApiSehirSehir;
       'api::yazar.yazar': ApiYazarYazar;
       'api::yazi.yazi': ApiYaziYazi;
       'plugin::content-releases.release': PluginContentReleasesRelease;
